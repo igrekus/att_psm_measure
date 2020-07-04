@@ -174,7 +174,7 @@ class InstrumentController(QObject):
                 # with open(f's2p_{code}.s2p', mode='wt', encoding='utf-8') as f:
                 #     f.write(res)
                 if mock_enabled:
-                    with open(f'ref/sample_data/s2p_{att_code}_{psm_code}.s2p', mode='rt', encoding='utf-8') as f:
+                    with open(f'ref/sample_data/s_{att_code}_{psm_code}.s2p', mode='rt', encoding='utf-8') as f:
                         res = list(f.readlines())[0].strip()
                 out.append(parse_float_list(res))
 
