@@ -152,11 +152,10 @@ class InstrumentController(QObject):
         prog = self._instruments['Программатор']
 
         out = []
-        for att_code in range(64):
-            for psm_code in range(64):
-        # for att_code in [0, 1, 2, 4, 8, 16, 32, 63]:
-        # for att_code in [0]:
-        #     for psm_code in [0]:
+        # for att_code in range(64):
+        #     for psm_code in range(64):
+        for att_code in [0, 1, 2, 4, 8, 16, 32, 63]:
+            for psm_code in [0]:
                 self._phase_values.append(att_code)
 
                 prog.set_att_psm_code(att_code, psm_code)
@@ -171,8 +170,6 @@ class InstrumentController(QObject):
                 pna.send(f'CALC:DATA:SNP:PORTs:Save "1,2", "d:/ksa/psm_att/s_{att_code}_{psm_code}.s2p"')
                 pna.send(f'MMEM:STOR "d:/ksa/psm_att1/s_{att_code}_{psm_code}.s2p"')
 
-                # with open(f's2p_{code}.s2p', mode='wt', encoding='utf-8') as f:
-                #     f.write(res)
                 if mock_enabled:
                     with open(f'ref/sample_data/s_{att_code}_{psm_code}.s2p', mode='rt', encoding='utf-8') as f:
                         res = list(f.readlines())[0].strip()
