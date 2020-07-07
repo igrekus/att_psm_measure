@@ -1,13 +1,12 @@
 from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow
-from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot, QModelIndex
+from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot
 
 from formlayout.formlayout import fedit
 from instrumentcontroller import InstrumentController
 from connectionwidget import ConnectionWidget
 from measuremodel import MeasureModel
 from measurewidget import MeasureWidgetWithSecondaryParameters
-from powsweepwidget import PowSweepWidget
 from primaryplotwidget import PrimaryPlotWidget
 from statwidget import StatWidget
 
@@ -31,7 +30,6 @@ class MainWindow(QMainWindow):
         self._measureWidget = MeasureWidgetWithSecondaryParameters(parent=self, controller=self._instrumentController)
         self._measureModel = MeasureModel(parent=self, controller=self._instrumentController)
         self._plotWidget = PrimaryPlotWidget(parent=self, result=self._instrumentController.result)
-        self._powSweepWidget = PowSweepWidget(parent=self, controller=self._instrumentController)
         self._statWidget = StatWidget(parent=self, result=self._instrumentController.result)
 
         # init UI
@@ -40,7 +38,6 @@ class MainWindow(QMainWindow):
         self._ui.layInstrs.insertWidget(2, self._statWidget, 10)
 
         self._ui.tabWidget.insertTab(0, self._plotWidget, 'Автоматическое измерение')
-        self._ui.tabWidget.insertTab(1, self._powSweepWidget, 'Прогон по частоте')
         self._init()
 
     def _init(self):
