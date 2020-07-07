@@ -304,7 +304,7 @@ class MeasureResult:
         points = int(args[0])
         s2p = list(args[1])
         self._ideal_phase = list(args[2])
-        self._att_codes = list(args[2])
+        self._att_codes = list(args[3])
         self._secondaryParams = dict(args[4])
 
         if self.adjust:
