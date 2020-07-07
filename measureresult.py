@@ -83,8 +83,10 @@ class MeasureResult:
         self._s21s_ph_err = list()
         self._s21s_ph_rmse = list()
         self._s11s = list()
+        self._s12s = list()
         self._s22s = list()
         self._ideal_phase = list()
+        self._att_codes = list()
 
         self._vswr_in = list()
         self._vswr_out = list()
@@ -122,8 +124,10 @@ class MeasureResult:
         self._s21s_ph_err.clear()
         self._s21s_ph_rmse.clear()
         self._s11s.clear()
+        self._s12s.clear()
         self._s22s.clear()
         self._ideal_phase.clear()
+        self._att_codes.clear()
 
         self._vswr_in.clear()
         self._vswr_out.clear()
@@ -300,7 +304,8 @@ class MeasureResult:
         points = int(args[0])
         s2p = list(args[1])
         self._ideal_phase = list(args[2])
-        self._secondaryParams = dict(args[3])
+        self._att_codes = list(args[2])
+        self._secondaryParams = dict(args[4])
 
         if self.adjust:
             self._load_ideal()
@@ -317,6 +322,8 @@ class MeasureResult:
                     self._s21s.append(array)
                 elif i == 4:
                     self._s21s_ph.append(array)
+                elif i == 5:
+                    self._s12s.append(array)
                 elif i == 7:
                     self._s22s.append(array)
         print(args)
@@ -329,6 +336,18 @@ class MeasureResult:
     @property
     def s21(self):
         return self._s21s
+
+    @property
+    def s12(self):
+        return self._s12s
+
+    @property
+    def s11(self):
+        return self._s11s
+
+    @property
+    def s22(self):
+        return self._s22s
 
     @property
     def vswr_in(self):

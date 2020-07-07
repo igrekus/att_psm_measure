@@ -7,7 +7,7 @@ from instrumentcontroller import InstrumentController
 from connectionwidget import ConnectionWidget
 from measuremodel import MeasureModel
 from measurewidget import MeasureWidgetWithSecondaryParameters
-from primaryplotwidget import PrimaryPlotWidget
+from sparamplotwidget import SParamPlotWidget
 from statwidget import StatWidget
 
 
@@ -29,7 +29,7 @@ class MainWindow(QMainWindow):
         self._connectionWidget = ConnectionWidget(parent=self, controller=self._instrumentController)
         self._measureWidget = MeasureWidgetWithSecondaryParameters(parent=self, controller=self._instrumentController)
         self._measureModel = MeasureModel(parent=self, controller=self._instrumentController)
-        self._plotWidget = PrimaryPlotWidget(parent=self, result=self._instrumentController.result)
+        self._sParamPlotWidget = SParamPlotWidget(parent=self, result=self._instrumentController.result)
         self._statWidget = StatWidget(parent=self, result=self._instrumentController.result)
 
         # init UI
@@ -37,7 +37,7 @@ class MainWindow(QMainWindow):
         self._ui.layInstrs.insertWidget(1, self._measureWidget)
         self._ui.layInstrs.insertWidget(2, self._statWidget, 10)
 
-        self._ui.tabWidget.insertTab(0, self._plotWidget, 'Автоматическое измерение')
+        self._ui.tabWidget.insertTab(0, self._sParamPlotWidget, 'Автоматическое измерение')
         self._init()
 
     def _init(self):
@@ -77,12 +77,12 @@ class MainWindow(QMainWindow):
     def on_measureComplete(self):
         print('meas complete')
         # self._plotWidget.preparePlots(self._instrumentController.secondaryParams)
-        self._plotWidget.plot()
+        self._sParamPlotWidget.plot()
         # self._statWidget.stats = self._instrumentController.result.stats
 
     @pyqtSlot()
     def on_measureStarted(self):
-        self._plotWidget.clear()
+        self._sParamPlotWidget.clear()
 
     @pyqtSlot()
     def on_actParams_triggered(self):
@@ -103,5 +103,5 @@ class MainWindow(QMainWindow):
         self._instrumentController.result.adjust = adjust
         self._instrumentController.result.adjust_set = adjust_set
         self._instrumentController.cal_set = cal_set
-        self._plotWidget.only_main_states = only_main_states
+        self._sParamPlotWidget.only_main_states = only_main_states
 

@@ -72,7 +72,8 @@ class InstrumentController(QObject):
         self._mag_s22s = list()
         self._mag_s21s = list()
         self._phs_s21s = list()
-        self._phase_values = list()
+        self._phase_codes = list()
+        self._att_codes = list()
 
     def __str__(self):
         return f'{self._instruments}'
@@ -106,7 +107,12 @@ class InstrumentController(QObject):
     def measure(self, params):
         print(f'call measure with {params}')
         device, secondary = params
-        self.result.raw_data = self.sweep_points, self._measure(device, secondary), self._phase_values, self.secondaryParams
+        self.result.raw_data = \
+            self.sweep_points, \
+            self._measure(device, secondary), \
+            self._phase_codes, \
+            self._att_codes, \
+            self.secondaryParams
         # self.hasResult = bool(self.result)
         self.hasResult = True
 
@@ -121,7 +127,8 @@ class InstrumentController(QObject):
         return self._measure_s_params()
 
     def _clear(self):
-        self._phase_values.clear()
+        self._phase_codes.clear()
+        self._att_codes.clear()
 
     def _init(self, params):
         pna = self._instruments['Анализатор']
@@ -156,7 +163,8 @@ class InstrumentController(QObject):
         #     for psm_code in range(64):
         for att_code in [0, 1, 2, 4, 8, 16, 32, 63]:
             for psm_code in [0]:
-                self._phase_values.append(att_code)
+                self._phase_codes.append(psm_code)
+                self._att_codes.append(att_code)
 
                 prog.set_att_psm_code(att_code, psm_code)
 
