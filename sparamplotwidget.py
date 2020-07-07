@@ -93,18 +93,19 @@ class SParamPlotWidget(QWidget):
         s21s = self._result.s21
         s12s = self._result.s12
 
-        n = len(s21s)
+        # TODO rename to result._psm_codes
+        n = len(set(self._result._ideal_phase))
 
-        for xs, ys in zip(itertools.repeat(freqs, n), s11s):
+        for xs, ys in zip(itertools.repeat(freqs, n), s11s[:n]):
             self._plotS11.plot(xs, ys)
 
-        for xs, ys in zip(itertools.repeat(freqs, n), s22s):
+        for xs, ys in zip(itertools.repeat(freqs, n), s22s[:n]):
             self._plotS22.plot(xs, ys)
 
-        for xs, ys in zip(itertools.repeat(freqs, n), s21s):
+        for xs, ys in zip(itertools.repeat(freqs, n), s21s[:n]):
             self._plotS21.plot(xs, ys)
 
-        for xs, ys in zip(itertools.repeat(freqs, n), s12s):
+        for xs, ys in zip(itertools.repeat(freqs, n), s12s[:n]):
             self._plotS12.plot(xs, ys)
 
     def save(self, img_path='./image'):
