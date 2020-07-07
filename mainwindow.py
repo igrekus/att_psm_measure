@@ -7,6 +7,7 @@ from instrumentcontroller import InstrumentController
 from connectionwidget import ConnectionWidget
 from measuremodel import MeasureModel
 from measurewidget import MeasureWidgetWithSecondaryParameters
+from psmplotwidget import PsmPlotWidget
 from sparamplotwidget import SParamPlotWidget
 from statwidget import StatWidget
 
@@ -30,6 +31,7 @@ class MainWindow(QMainWindow):
         self._measureWidget = MeasureWidgetWithSecondaryParameters(parent=self, controller=self._instrumentController)
         self._measureModel = MeasureModel(parent=self, controller=self._instrumentController)
         self._sParamPlotWidget = SParamPlotWidget(parent=self, result=self._instrumentController.result)
+        self._psmPlotWidget = PsmPlotWidget(parent=self, result=self._instrumentController.result)
         self._statWidget = StatWidget(parent=self, result=self._instrumentController.result)
 
         # init UI
@@ -37,7 +39,8 @@ class MainWindow(QMainWindow):
         self._ui.layInstrs.insertWidget(1, self._measureWidget)
         self._ui.layInstrs.insertWidget(2, self._statWidget, 10)
 
-        self._ui.tabWidget.insertTab(0, self._sParamPlotWidget, 'Автоматическое измерение')
+        self._ui.tabWidget.insertTab(0, self._sParamPlotWidget, 'S-параметры')
+        self._ui.tabWidget.insertTab(1, self._psmPlotWidget, 'Отклик фазовращателя')
         self._init()
 
     def _init(self):
@@ -78,6 +81,7 @@ class MainWindow(QMainWindow):
         print('meas complete')
         # self._plotWidget.preparePlots(self._instrumentController.secondaryParams)
         self._sParamPlotWidget.plot()
+        self._psmPlotWidget.plot()
         # self._statWidget.stats = self._instrumentController.result.stats
 
     @pyqtSlot()
