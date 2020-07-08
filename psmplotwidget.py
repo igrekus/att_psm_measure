@@ -5,6 +5,8 @@ import os
 from PyQt5.QtWidgets import QGridLayout, QWidget
 from mytools.plotwidget import PlotWidget
 
+main_states = [0, 1, 2, 4, 8, 16, 32, 63]
+
 
 class PsmPlotWidget(QWidget):
     params = {
@@ -129,35 +131,48 @@ class PsmPlotWidget(QWidget):
 
         freqs = self._result.freqs
         s11s = self._result.s11
-        s22s = self._result.s22
-        s21s = self._result.s21
-        s12s = self._result.s12
 
         # TODO rename to result._psm_codes
         n = len(set(self._result._ideal_phase))
 
-        for xs, ys in zip(itertools.repeat(freqs, n), s11s[:n]):
+        att_indices = []
+        for i in main_states:
+            try:
+                att_indices.append(self._result._att_codes.index(i))
+            except ValueError:
+                att_indices.append(-1)
+        att_indices = [idx for idx in att_indices if idx >= 0]
+
+        idx = att_indices[0]
+        for xs, ys in zip(itertools.repeat(freqs, n), s11s[idx:idx + n]):
             self._plot000000.plot(xs, ys)
 
-        for xs, ys in zip(itertools.repeat(freqs, n), s22s[:n]):
+        idx = att_indices[1]
+        for xs, ys in zip(itertools.repeat(freqs, n), s11s[idx:idx + n]):
             self._plot000001.plot(xs, ys)
 
-        for xs, ys in zip(itertools.repeat(freqs, n), s21s[:n]):
+        idx = att_indices[2]
+        for xs, ys in zip(itertools.repeat(freqs, n), s11s[idx:idx + n]):
             self._plot000010.plot(xs, ys)
 
-        for xs, ys in zip(itertools.repeat(freqs, n), s12s[:n]):
+        idx = att_indices[3]
+        for xs, ys in zip(itertools.repeat(freqs, n), s11s[idx:idx + n]):
             self._plot000100.plot(xs, ys)
 
-        for xs, ys in zip(itertools.repeat(freqs, n), s11s[:n]):
+        idx = att_indices[4]
+        for xs, ys in zip(itertools.repeat(freqs, n), s11s[idx:idx + n]):
             self._plot001000.plot(xs, ys)
 
-        for xs, ys in zip(itertools.repeat(freqs, n), s22s[:n]):
+        idx = att_indices[5]
+        for xs, ys in zip(itertools.repeat(freqs, n), s11s[idx:idx + n]):
             self._plot010000.plot(xs, ys)
 
-        for xs, ys in zip(itertools.repeat(freqs, n), s21s[:n]):
+        idx = att_indices[6]
+        for xs, ys in zip(itertools.repeat(freqs, n), s11s[idx:idx + n]):
             self._plot100000.plot(xs, ys)
 
-        for xs, ys in zip(itertools.repeat(freqs, n), s12s[:n]):
+        idx = att_indices[7]
+        for xs, ys in zip(itertools.repeat(freqs, n), s11s[idx:idx + n]):
             self._plot111111.plot(xs, ys)
 
     def save(self, img_path='./image'):
