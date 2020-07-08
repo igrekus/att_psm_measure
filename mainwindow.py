@@ -2,6 +2,7 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot
 
+from attplotwidget import AttPlotWidget
 from formlayout.formlayout import fedit
 from instrumentcontroller import InstrumentController
 from connectionwidget import ConnectionWidget
@@ -32,6 +33,8 @@ class MainWindow(QMainWindow):
         self._measureModel = MeasureModel(parent=self, controller=self._instrumentController)
         self._sParamPlotWidget = SParamPlotWidget(parent=self, result=self._instrumentController.result)
         self._psmPlotWidget = PsmPlotWidget(parent=self, result=self._instrumentController.result)
+        self._attPlotWidget = AttPlotWidget(parent=self, result=self._instrumentController.result)
+
         self._statWidget = StatWidget(parent=self, result=self._instrumentController.result)
 
         # init UI
@@ -41,6 +44,7 @@ class MainWindow(QMainWindow):
 
         self._ui.tabWidget.insertTab(0, self._sParamPlotWidget, 'S-параметры')
         self._ui.tabWidget.insertTab(1, self._psmPlotWidget, 'Отклик фазовращателя')
+        self._ui.tabWidget.insertTab(2, self._attPlotWidget, 'Отклик аттенюатора')
         self._init()
 
     def _init(self):
@@ -82,6 +86,7 @@ class MainWindow(QMainWindow):
         # self._plotWidget.preparePlots(self._instrumentController.secondaryParams)
         self._sParamPlotWidget.plot()
         self._psmPlotWidget.plot()
+        self._attPlotWidget.plot()
         # self._statWidget.stats = self._instrumentController.result.stats
 
     @pyqtSlot()
