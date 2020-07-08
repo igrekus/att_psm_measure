@@ -14,49 +14,49 @@ class PsmPlotWidget(QWidget):
             '00': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S21, дБ, 0гр',
+                'ylabel': 'S11, дБ, 0гр',
                 'ylim': []
             },
             '01': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S21, дБ, 5гр',
+                'ylabel': 'S11, дБ, 5гр',
                 'ylim': []
             },
             '02': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S21, дБ, 11гр',
+                'ylabel': 'S11, дБ, 11гр',
                 'ylim': []
             },
             '03': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S21, дБ, 22гр',
+                'ylabel': 'S11, дБ, 22гр',
                 'ylim': []
             },
             '10': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S21, дБ, 45гр',
+                'ylabel': 'S11, дБ, 45гр',
                 'ylim': []
             },
             '11': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S21, дБ, 90гр',
+                'ylabel': 'S11, дБ, 90гр',
                 'ylim': []
             },
             '12': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S21, дБ, 180гр',
+                'ylabel': 'S11, дБ, 180гр',
                 'ylim': []
             },
             '13': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S21, дБ, 360гр',
+                'ylabel': 'S11, дБ, 360гр',
                 'ylim': []
             },
         },
