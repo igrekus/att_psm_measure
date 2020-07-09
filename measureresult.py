@@ -4,6 +4,14 @@ import random
 import statistics
 
 
+# TODO att response - use s21 normalized phase data
+# TODO phase error - use att=0 phase error for main phase states as per algorithm (-0 state)
+# TODO amp error - use phase=0 amp error for main att states as per algorithm (-0 state)
+# TODO add midpoint for stats calculations
+
+# TODO fix plot labels
+
+
 def unwrap(xw):
     dist = 180
     xu = list(xw)
