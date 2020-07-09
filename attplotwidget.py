@@ -14,49 +14,49 @@ class AttPlotWidget(QWidget):
             '00': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S11, дБ, 0дБ',
+                'ylabel': 'S21, дБ, 0гр',
                 'ylim': []
             },
             '01': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S11, дБ, 0.5дБ',
+                'ylabel': 'S21, дБ, 5гр',
                 'ylim': []
             },
             '02': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S11, дБ, 1дБ',
+                'ylabel': 'S21, дБ, 11гр',
                 'ylim': []
             },
             '03': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S11, дБ, 2дБ',
+                'ylabel': 'S21, дБ, 22гр',
                 'ylim': []
             },
             '10': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S11, дБ, 4дБ',
+                'ylabel': 'S21, дБ, 45гр',
                 'ylim': []
             },
             '11': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S11, дБ, 8дБ',
+                'ylabel': 'S21, дБ, 90гр',
                 'ylim': []
             },
             '12': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S11, дБ, 16дБ',
+                'ylabel': 'S21, дБ, 180гр',
                 'ylim': []
             },
             '13': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S11, дБ, 32дБ',
+                'ylabel': 'S21, дБ, 360гр',
                 'ylim': []
             },
         },
