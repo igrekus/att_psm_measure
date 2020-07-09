@@ -8,9 +8,6 @@ from instr.instrumentfactory import NetworkAnalyzerFactory, mock_enabled
 from measureresult import MeasureResult
 
 
-# TODO f1, f2 within fstart, fend
-# TODO add dividers for stats string
-
 class InstrumentController(QObject):
     phases = [
         22.5,
