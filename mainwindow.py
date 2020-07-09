@@ -109,8 +109,8 @@ class MainWindow(QMainWindow):
 
         adjust, cal_set, only_main_states, adjust_set = values
 
-        self._instrumentController.result.adjust = adjust
-        self._instrumentController.result.adjust_set = adjust_set
+        # self._instrumentController.result.adjust = adjust
+        # self._instrumentController.result.adjust_set = adjust_set
         self._instrumentController.cal_set = cal_set
-        self._sParamPlotWidget.only_main_states = only_main_states
+        # self._sParamPlotWidget.only_main_states = only_main_states
 

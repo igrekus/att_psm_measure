@@ -55,7 +55,7 @@ class InstrumentController(QObject):
         }
 
         self.sweep_points = 201
-        self.cal_set = 'Upr_tst'
+        self.cal_set = 'CH1_CALREG'
 
         self._instruments = dict()
         self.found = False
@@ -138,8 +138,7 @@ class InstrumentController(QObject):
         pna.send('CALC1:PAR:DEF "CH1_S21",S21')
 
         # c:\program files\agilent\newtowrk analyzer\UserCalSets
-        # pna.send(f'SENS1:CORR:CSET:ACT "{self.cal_set}",1')
-        # pna.send('SENS2:CORR:CSET:ACT "sp",1')
+        pna.send(f'SENS1:CORR:CSET:ACT "{self.cal_set}",1')
 
         pna.send(f'SENS1:SWE:POIN {self.sweep_points}')
 
