@@ -14,49 +14,49 @@ class PsmPlotWidget(QWidget):
             '00': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S11, дБ, 0гр',
+                'ylabel': 'S21, дБ, 0 дБ',
                 'ylim': []
             },
             '01': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S11, дБ, 5гр',
+                'ylabel': 'S21, дБ, 0.5 дБ',
                 'ylim': []
             },
             '02': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S11, дБ, 11гр',
+                'ylabel': 'S21, дБ, 1 дБ',
                 'ylim': []
             },
             '03': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S11, дБ, 22гр',
+                'ylabel': 'S21, дБ, 2 дБ',
                 'ylim': []
             },
             '10': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S11, дБ, 45гр',
+                'ylabel': 'S21, дБ, 4 дБ',
                 'ylim': []
             },
             '11': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S11, дБ, 90гр',
+                'ylabel': 'S21, дБ, 8 дБ',
                 'ylim': []
             },
             '12': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S11, дБ, 180гр',
+                'ylabel': 'S21, дБ, 16 дБ',
                 'ylim': []
             },
             '13': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S11, дБ, 360гр',
+                'ylabel': 'S21, дБ, 32 дБ',
                 'ylim': []
             },
         },
@@ -130,7 +130,7 @@ class PsmPlotWidget(QWidget):
         self._init(dev_id)
 
         freqs = self._result.freqs
-        s11s = self._result.s11
+        s21s = self._result.s21
 
         # TODO rename to result._psm_codes
         n = len(set(self._result._ideal_phase))
@@ -144,35 +144,35 @@ class PsmPlotWidget(QWidget):
         att_indices = [idx for idx in att_indices if idx >= 0]
 
         idx = att_indices[0]
-        for xs, ys in zip(itertools.repeat(freqs, n), s11s[idx:idx + n]):
+        for xs, ys in zip(itertools.repeat(freqs, n), s21s[idx:idx + n]):
             self._plot000000.plot(xs, ys)
 
         idx = att_indices[1]
-        for xs, ys in zip(itertools.repeat(freqs, n), s11s[idx:idx + n]):
+        for xs, ys in zip(itertools.repeat(freqs, n), s21s[idx:idx + n]):
             self._plot000001.plot(xs, ys)
 
         idx = att_indices[2]
-        for xs, ys in zip(itertools.repeat(freqs, n), s11s[idx:idx + n]):
+        for xs, ys in zip(itertools.repeat(freqs, n), s21s[idx:idx + n]):
             self._plot000010.plot(xs, ys)
 
         idx = att_indices[3]
-        for xs, ys in zip(itertools.repeat(freqs, n), s11s[idx:idx + n]):
+        for xs, ys in zip(itertools.repeat(freqs, n), s21s[idx:idx + n]):
             self._plot000100.plot(xs, ys)
 
         idx = att_indices[4]
-        for xs, ys in zip(itertools.repeat(freqs, n), s11s[idx:idx + n]):
+        for xs, ys in zip(itertools.repeat(freqs, n), s21s[idx:idx + n]):
             self._plot001000.plot(xs, ys)
 
         idx = att_indices[5]
-        for xs, ys in zip(itertools.repeat(freqs, n), s11s[idx:idx + n]):
+        for xs, ys in zip(itertools.repeat(freqs, n), s21s[idx:idx + n]):
             self._plot010000.plot(xs, ys)
 
         idx = att_indices[6]
-        for xs, ys in zip(itertools.repeat(freqs, n), s11s[idx:idx + n]):
+        for xs, ys in zip(itertools.repeat(freqs, n), s21s[idx:idx + n]):
             self._plot100000.plot(xs, ys)
 
         idx = att_indices[7]
-        for xs, ys in zip(itertools.repeat(freqs, n), s11s[idx:idx + n]):
+        for xs, ys in zip(itertools.repeat(freqs, n), s21s[idx:idx + n]):
             self._plot111111.plot(xs, ys)
 
     def save(self, img_path='./image'):
