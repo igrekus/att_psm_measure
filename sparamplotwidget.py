@@ -94,7 +94,7 @@ class SParamPlotWidget(QWidget):
         s12s = self._result.s12
 
         # TODO rename to result._psm_codes
-        n = len(set(self._result._ideal_phase))
+        n = len(set(self._result._phase_codes))
 
         for xs, ys in zip(itertools.repeat(freqs, n), s11s[:n]):
             self._plotS11.plot(xs, ys)

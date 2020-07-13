@@ -133,7 +133,7 @@ class PsmPlotWidget(QWidget):
         s21s = self._result.s21
 
         # TODO rename to result._psm_codes
-        n = len(set(self._result._ideal_phase))
+        n = len(set(self._result._phase_codes))
 
         att_indices = []
         for i in main_states:

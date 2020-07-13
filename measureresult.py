@@ -95,7 +95,7 @@ class MeasureResult:
         self._s11s = list()
         self._s12s = list()
         self._s22s = list()
-        self._ideal_phase = list()
+        self._phase_codes = list()
         self._att_codes = list()
 
         self._vswr_in = list()
@@ -137,7 +137,7 @@ class MeasureResult:
         self._s11s.clear()
         self._s12s.clear()
         self._s22s.clear()
-        self._ideal_phase.clear()
+        self._phase_codes.clear()
         self._att_codes.clear()
 
         self._vswr_in.clear()
@@ -165,7 +165,7 @@ class MeasureResult:
         # self._calc_vwsr_out()
         # if self.adjust:
         #     self._adjust_data('vswr')
-        # self._calc_phase_err()
+        self._calc_phase_err()
         # self._calc_s21_err()
         # if self.adjust:
         #     self._adjust_data('err')
@@ -192,7 +192,7 @@ class MeasureResult:
 
     def _calc_phase_err(self):
         ph0 = self._s21s_ph[0]
-        self._s21s_ph_err = [calc_phase_error(s, ph0, ideal) for s, ideal in zip(self._s21s_ph[1:], self._ideal_phase[1:])]
+        self._s21s_ph_err = [calc_phase_error(s, ph0, ideal) for s, ideal in zip(self._s21s_ph[1:], self._phase_codes[1:])]
 
         means = [statistics.mean(vs) for vs in zip(*self._s21s_ph_err)]
 
@@ -322,7 +322,7 @@ class MeasureResult:
 
         points = int(args[0])
         s2p = list(args[1])
-        self._ideal_phase = list(args[2])
+        self._phase_codes = list(args[2])
         self._att_codes = list(args[3])
         self._secondaryParams = dict(args[4])
 

@@ -72,7 +72,7 @@ class RmsePlotWidget(QWidget):
         s22s = self._result.s22
 
         # TODO rename to result._psm_codes
-        n = len(set(self._result._ideal_phase))
+        n = len(set(self._result._phase_codes))
 
         for xs, ys in zip(itertools.repeat(freqs, n), s11s[:n]):
             self._plotPhaseRmse.plot(xs, ys)

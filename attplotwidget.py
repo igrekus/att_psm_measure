@@ -138,7 +138,7 @@ class AttPlotWidget(QWidget):
         psm_indices = []
         for i in main_states:
             try:
-                psm_indices.append(self._result._ideal_phase.index(i))
+                psm_indices.append(self._result._phase_codes.index(i))
             except ValueError:
                 psm_indices.append(-1)
         psm_indices = [idx for idx in psm_indices if idx >= 0]
