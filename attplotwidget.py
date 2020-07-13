@@ -130,7 +130,7 @@ class AttPlotWidget(QWidget):
         self._init(dev_id)
 
         freqs = self._result.freqs
-        s11s = self._result.s11
+        s21s_ph = self._result.s21_phase_norm
 
         # TODO rename to result._psm_codes
         n = len(set(self._result._att_codes))
@@ -148,35 +148,35 @@ class AttPlotWidget(QWidget):
                 yield lst[i:i + n]
 
         idx = psm_indices[0]
-        for xs, ys in zip(itertools.repeat(freqs, n), (chunk[idx] for chunk in chunks(s11s, n))):
+        for xs, ys in zip(itertools.repeat(freqs, n), (chunk[idx] for chunk in chunks(s21s_ph, n))):
             self._plot000000.plot(xs, ys)
 
         idx = psm_indices[1]
-        for xs, ys in zip(itertools.repeat(freqs, n), (chunk[idx] for chunk in chunks(s11s, n))):
+        for xs, ys in zip(itertools.repeat(freqs, n), (chunk[idx] for chunk in chunks(s21s_ph, n))):
             self._plot000001.plot(xs, ys)
 
         idx = psm_indices[2]
-        for xs, ys in zip(itertools.repeat(freqs, n), (chunk[idx] for chunk in chunks(s11s, n))):
+        for xs, ys in zip(itertools.repeat(freqs, n), (chunk[idx] for chunk in chunks(s21s_ph, n))):
             self._plot000010.plot(xs, ys)
 
         idx = psm_indices[3]
-        for xs, ys in zip(itertools.repeat(freqs, n), (chunk[idx] for chunk in chunks(s11s, n))):
+        for xs, ys in zip(itertools.repeat(freqs, n), (chunk[idx] for chunk in chunks(s21s_ph, n))):
             self._plot000100.plot(xs, ys)
 
         idx = psm_indices[4]
-        for xs, ys in zip(itertools.repeat(freqs, n), (chunk[idx] for chunk in chunks(s11s, n))):
+        for xs, ys in zip(itertools.repeat(freqs, n), (chunk[idx] for chunk in chunks(s21s_ph, n))):
             self._plot001000.plot(xs, ys)
 
         idx = psm_indices[5]
-        for xs, ys in zip(itertools.repeat(freqs, n), (chunk[idx] for chunk in chunks(s11s, n))):
+        for xs, ys in zip(itertools.repeat(freqs, n), (chunk[idx] for chunk in chunks(s21s_ph, n))):
             self._plot010000.plot(xs, ys)
 
         idx = psm_indices[6]
-        for xs, ys in zip(itertools.repeat(freqs, n), (chunk[idx] for chunk in chunks(s11s, n))):
+        for xs, ys in zip(itertools.repeat(freqs, n), (chunk[idx] for chunk in chunks(s21s_ph, n))):
             self._plot100000.plot(xs, ys)
 
         idx = psm_indices[7]
-        for xs, ys in zip(itertools.repeat(freqs, n), (chunk[idx] for chunk in chunks(s11s, n))):
+        for xs, ys in zip(itertools.repeat(freqs, n), (chunk[idx] for chunk in chunks(s21s_ph, n))):
             self._plot111111.plot(xs, ys)
 
     def save(self, img_path='./image'):

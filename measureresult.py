@@ -66,6 +66,10 @@ def generateValue(data):
     return round(random.randint(0, int((stop - start) / step)) * step + start, 2)
 
 
+def sub_ph0(phs, ph0s):
+    return [a - b for a, b in zip(phs, ph0s)]
+
+
 def _find_freq_index(freqs: list, freq):
     freq = freq * 1_000_000_000
     return min(range(len(freqs)), key=lambda i: abs(freqs[i] - freq))
@@ -88,6 +92,7 @@ class MeasureResult:
         self._s21s_err = list()
         self._s21s_rmse = list()
         self._s21s_ph = list()
+        self._s21s_ph_norm = list()
         self._s21s_ph_err = list()
         self._s21s_ph_rmse = list()
         self._s11s = list()
@@ -129,6 +134,7 @@ class MeasureResult:
         self._s21s_err.clear()
         self._s21s_rmse.clear()
         self._s21s_ph.clear()
+        self._s21s_ph_norm.clear()
         self._s21s_ph_err.clear()
         self._s21s_ph_rmse.clear()
         self._s11s.clear()
@@ -154,23 +160,32 @@ class MeasureResult:
         self._misc.clear()
 
     def _process(self):
-        if self.adjust:
-            self._adjust_data('s21')
-        self._calc_vwsr_in()
-        self._calc_vwsr_out()
-        if self.adjust:
-            self._adjust_data('vswr')
-        self._calc_phase_err()
-        self._calc_s21_err()
-        if self.adjust:
-            self._adjust_data('err')
-        self._calc_phase_rmse()
-        self._calc_s21_rmse()
-        self._calc_stats()
-
-        self._cal_s21_worst_loss()
-
+        self._unwrap_phase()
+        self._normalize_phase()
+        # if self.adjust:
+        #     self._adjust_data('s21')
+        # self._calc_vwsr_in()
+        # self._calc_vwsr_out()
+        # if self.adjust:
+        #     self._adjust_data('vswr')
+        # self._calc_phase_err()
+        # self._calc_s21_err()
+        # if self.adjust:
+        #     self._adjust_data('err')
+        # self._calc_phase_rmse()
+        # self._calc_s21_rmse()
+        # self._calc_stats()
+        #
+        # self._cal_s21_worst_loss()
+        #
         self.ready = True
+
+    def _unwrap_phase(self):
+        self._s21s_ph = [unwrap(s) for s in self._s21s_ph]
+
+    def _normalize_phase(self):
+        ph0 = self._s21s_ph[0]
+        self._s21s_ph_norm = [sub_ph0(ph, ph0) for ph in self._s21s_ph]
 
     def _calc_vwsr_in(self):
         self._vswr_in = [calc_vswr(s) for s in self._s11s]
@@ -179,7 +194,6 @@ class MeasureResult:
         self._vswr_out = [calc_vswr(s) for s in self._s22s]
 
     def _calc_phase_err(self):
-        self._s21s_ph = [unwrap(s) for s in self._s21s_ph]
         ph0 = self._s21s_ph[0]
         self._s21s_ph_err = [calc_phase_error(s, ph0, ideal) for s, ideal in zip(self._s21s_ph[1:], self._ideal_phase[1:])]
 
@@ -334,8 +348,8 @@ class MeasureResult:
                     self._s12s.append(array)
                 elif i == 7:
                     self._s22s.append(array)
-        print(args)
-        # self._process()
+        # print(args)
+        self._process()
 
     @property
     def freqs(self):
@@ -368,6 +382,10 @@ class MeasureResult:
     @property
     def phase(self):
         return self._s21s_ph
+
+    @property
+    def s21_phase_norm(self):
+        return self._s21s_ph_norm
 
     @property
     def phase_err(self):
