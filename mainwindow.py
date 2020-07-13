@@ -9,6 +9,7 @@ from connectionwidget import ConnectionWidget
 from measuremodel import MeasureModel
 from measurewidget import MeasureWidgetWithSecondaryParameters
 from psmplotwidget import PsmPlotWidget
+from rmseplotwidget import RmsePlotWidget
 from sparamplotwidget import SParamPlotWidget
 from statwidget import StatWidget
 
@@ -34,6 +35,7 @@ class MainWindow(QMainWindow):
         self._sParamPlotWidget = SParamPlotWidget(parent=self, result=self._instrumentController.result)
         self._psmPlotWidget = PsmPlotWidget(parent=self, result=self._instrumentController.result)
         self._attPlotWidget = AttPlotWidget(parent=self, result=self._instrumentController.result)
+        self._rmsePlotWidget = RmsePlotWidget(parent=self, result=self._instrumentController.result)
 
         self._statWidget = StatWidget(parent=self, result=self._instrumentController.result)
 
@@ -45,6 +47,7 @@ class MainWindow(QMainWindow):
         self._ui.tabWidget.insertTab(0, self._sParamPlotWidget, 'S-параметры')
         self._ui.tabWidget.insertTab(1, self._psmPlotWidget, 'Отклик фазовращателя')
         self._ui.tabWidget.insertTab(2, self._attPlotWidget, 'Отклик аттенюатора')
+        self._ui.tabWidget.insertTab(3, self._rmsePlotWidget, 'Среднеквадратичная ошибка')
         self._init()
 
     def _init(self):
@@ -87,6 +90,7 @@ class MainWindow(QMainWindow):
         self._sParamPlotWidget.plot()
         self._psmPlotWidget.plot()
         self._attPlotWidget.plot()
+        self._rmsePlotWidget.plot()
         # self._statWidget.stats = self._instrumentController.result.stats
 
     @pyqtSlot()
