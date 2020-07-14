@@ -317,7 +317,6 @@ class MeasureResult:
     @raw_data.setter
     def raw_data(self, args):
         print('process result')
-        print(args)
         self._init()
 
         points = int(args[0])
