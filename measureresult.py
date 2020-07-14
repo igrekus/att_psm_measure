@@ -9,6 +9,11 @@ import statistics
 # TODO add midpoint for stats calculations
 
 
+def chunks(lst, n):
+    for i in range(0, len(lst), n):
+        yield lst[i:i + n]
+
+
 def unwrap(xw):
     dist = 180
     xu = list(xw)
@@ -166,11 +171,11 @@ class MeasureResult:
         # if self.adjust:
         #     self._adjust_data('vswr')
         self._calc_phase_err()
-        # self._calc_s21_err()
+        self._calc_s21_err()
         # if self.adjust:
         #     self._adjust_data('err')
         self._calc_phase_rmse()
-        # self._calc_s21_rmse()
+        self._calc_s21_rmse()
         # self._calc_stats()
         #
         # self._cal_s21_worst_loss()
@@ -204,8 +209,13 @@ class MeasureResult:
         self._s21s_ph_err = [calc_error(s, mean) for s, mean in zip(self._s21s_ph_err, itertools.repeat(means, len(self._s21s_ph_err)))]
 
     def _calc_s21_err(self):
-        means = [statistics.mean(vs) for vs in zip(*self._s21s)]
-        self._s21s_err = [calc_error(s, means) for s in self._s21s]
+        unique_att_codes = set(self._att_codes)
+        att_group_len = len(unique_att_codes)
+
+        s21_amps = [chunk[0] for chunk in chunks(self._s21s, att_group_len)]
+
+        means = [statistics.mean(vs) for vs in zip(*s21_amps)]
+        self._s21s_err = [calc_error(s, means) for s in s21_amps]
 
     def _calc_phase_rmse(self):
         means = [statistics.mean(vs) for vs in zip(*self._s21s_ph_err)]
@@ -213,8 +223,14 @@ class MeasureResult:
             self._s21s_ph_rmse.append(calc_rmse_phase(vs, mean))
 
     def _calc_s21_rmse(self):
-        means = [statistics.mean(vs) for vs in zip(*self._s21s)]
-        for *vs, mean in zip(*self._s21s_err, means):
+        # TODO refactor this dupe
+        unique_att_codes = set(self._att_codes)
+        att_group_len = len(unique_att_codes)
+
+        s21_amps = [chunk[0] for chunk in chunks(self._s21s, att_group_len)]
+
+        means = [statistics.mean(vs) for vs in zip(*s21_amps)]
+        for *vs, mean in zip(*s21_amps, means):
             self._s21s_rmse.append(calc_rmse_amp(vs, mean))
 
     def _adjust_data(self, what):
