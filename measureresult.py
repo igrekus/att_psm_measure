@@ -169,7 +169,7 @@ class MeasureResult:
         # self._calc_s21_err()
         # if self.adjust:
         #     self._adjust_data('err')
-        # self._calc_phase_rmse()
+        self._calc_phase_rmse()
         # self._calc_s21_rmse()
         # self._calc_stats()
         #
@@ -191,8 +191,13 @@ class MeasureResult:
         self._vswr_out = [calc_vswr(s) for s in self._s22s]
 
     def _calc_phase_err(self):
-        ph0 = self._s21s_ph[0]
-        self._s21s_ph_err = [calc_phase_error(s, ph0, ideal) for s, ideal in zip(self._s21s_ph[1:], self._phase_codes[1:])]
+        unique_phase_codes = set(self._phase_codes)
+        phase_group_len = len(unique_phase_codes)
+        s21_phases = self._s21s_ph[:phase_group_len]
+        ph0 = s21_phases[0]
+        phase_values = [i * 5.625 for i in unique_phase_codes]
+
+        self._s21s_ph_err = [calc_phase_error(s, ph0, ideal) for s, ideal in zip(s21_phases, phase_values)]
 
         means = [statistics.mean(vs) for vs in zip(*self._s21s_ph_err)]
 

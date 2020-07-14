@@ -12,13 +12,13 @@ class RmsePlotWidget(QWidget):
             '00': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S11, дБ',
+                'ylabel': 'Phase RMSE',
                 'ylim': []
             },
             '01': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'S22, дБ',
+                'ylabel': 'Amp RMSE, дБ',
                 'ylim': []
             },
         },
@@ -68,13 +68,13 @@ class RmsePlotWidget(QWidget):
         self._init(dev_id)
 
         freqs = self._result.freqs
-        s11s = self._result.s11
+        phase_rmse = self._result.phase_rmse
         s22s = self._result.s22
 
         # TODO rename to result._psm_codes
         n = len(set(self._result._phase_codes))
 
-        for xs, ys in zip(itertools.repeat(freqs, n), s11s[:n]):
+        for xs, ys in zip(itertools.repeat(freqs, 1), [phase_rmse]):
             self._plotPhaseRmse.plot(xs, ys)
 
         for xs, ys in zip(itertools.repeat(freqs, n), s22s[:n]):
