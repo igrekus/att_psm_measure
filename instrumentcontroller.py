@@ -157,8 +157,10 @@ class InstrumentController(QObject):
         out = []
         # for att_code in range(64):
         #     for psm_code in range(64):
-        for att_code in [0, 1, 2, 4, 8, 16, 32, 63]:
-            for psm_code in [0]:
+        # for att_code in [0, 1, 2, 4, 8, 16, 32, 63]:
+        #     for psm_code in [0, 1]:
+        for att_code in [0, 1, 2, 3, 4, 8, 16, 32, 63]:
+            for psm_code in [0, 1, 2, 3, 4, 8, 16, 32, 63]:
                 self._phase_codes.append(psm_code)
                 self._att_codes.append(att_code)
 
