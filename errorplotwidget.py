@@ -71,7 +71,6 @@ class ErrorPlotWidget(QWidget):
         phase_error = self._result.phase_err
         amp_error = self._result.s21_err
 
-        # TODO rename to result._psm_codes
         n = len(set(self._result._phase_codes))
 
         for xs, ys in zip(itertools.repeat(freqs, n), phase_error):

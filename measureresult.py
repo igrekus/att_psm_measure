@@ -4,8 +4,6 @@ import random
 import statistics
 
 
-# TODO phase error - use att=0 phase error for main phase states as per algorithm (-0 state)
-# TODO amp error - use phase=0 amp error for main att states as per algorithm (-0 state)
 # TODO add midpoint for stats calculations
 
 # att response - adjust phase values
