@@ -6,19 +6,19 @@ from PyQt5.QtWidgets import QGridLayout, QWidget
 from mytools.plotwidget import PlotWidget
 
 
-class RmsePlotWidget(QWidget):
+class ErrorPlotWidget(QWidget):
     params = {
         0: {
             '00': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'Phase RMSE',
+                'ylabel': 'Фазовая ошибка',
                 'ylim': []
             },
             '01': {
                 'xlabel': 'F, ГГц',
                 'xlim': [],
-                'ylabel': 'Amp RMSE',
+                'ylabel': 'Амплитудная ошибка',
                 'ylim': []
             },
         },
@@ -68,16 +68,16 @@ class RmsePlotWidget(QWidget):
         self._init(dev_id)
 
         freqs = self._result.freqs
-        phase_rmse = self._result.phase_rmse
-        amp_rmse = self._result.s21_rmse
+        phase_error = self._result.phase_err
+        amp_error = self._result.s21_err
 
         # TODO rename to result._psm_codes
         n = len(set(self._result._phase_codes))
 
-        for xs, ys in zip(itertools.repeat(freqs, 1), [phase_rmse]):
+        for xs, ys in zip(itertools.repeat(freqs, n), phase_error):
             self._plotPhaseRmse.plot(xs, ys)
 
-        for xs, ys in zip(itertools.repeat(freqs, 1), [amp_rmse]):
+        for xs, ys in zip(itertools.repeat(freqs, n), amp_error):
             self._plotAmpRmse.plot(xs, ys)
 
     def save(self, img_path='./image'):
