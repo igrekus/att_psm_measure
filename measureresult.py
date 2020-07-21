@@ -8,6 +8,9 @@ import statistics
 # TODO amp error - use phase=0 amp error for main att states as per algorithm (-0 state)
 # TODO add midpoint for stats calculations
 
+# att response - adjust phase values
+# amp error ideal amps 0- 0.25 - 0.5 - 1 - 2 -4 - 8 - 15.75
+# add code selector widget
 
 def chunks(lst, n):
     for i in range(0, len(lst), n):
