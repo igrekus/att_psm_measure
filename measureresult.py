@@ -5,9 +5,7 @@ import statistics
 
 
 # TODO add midpoint for stats calculations
-
-# att response - adjust phase values
-# add code selector widget
+# TODO att response - adjust phase values
 
 def chunks(lst, n):
     for i in range(0, len(lst), n):
