@@ -221,7 +221,6 @@ class MeasureResult:
         s21_amps = [chunk[0] for chunk in chunks(self._s21s, att_group_len)]
 
         means = [statistics.mean(vs) for vs in zip(*s21_amps)]
-        # self._s21s_err = [calc_error(s, means) for s in s21_amps]
         self._s21s_err = [calc_error_around_ideal(s, means, a) for s, a in zip(s21_amps, att_values)]
 
     def _calc_phase_rmse(self):
