@@ -7,7 +7,6 @@ import statistics
 # TODO add midpoint for stats calculations
 
 # att response - adjust phase values
-# amp error ideal amps 0- 0.25 - 0.5 - 1 - 2 -4 - 8 - 15.75
 # add code selector widget
 
 def chunks(lst, n):
