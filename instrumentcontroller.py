@@ -121,7 +121,7 @@ class InstrumentController(QObject):
         self._clear()
         self._init(secondary)
 
-        return self._measure_s_params()
+        return self._measure_s_params(secondary)
 
     def _clear(self):
         self._phase_codes.clear()
@@ -150,17 +150,17 @@ class InstrumentController(QObject):
 
         prog.set_lpf_code(0)
 
-    def _measure_s_params(self):
+    def _measure_s_params(self, secondary):
         pna = self._instruments['Анализатор']
         prog = self._instruments['Программатор']
 
         out = []
-        # for att_code in range(64):
-        #     for psm_code in range(64):
-        # for att_code in [0, 1, 2, 4, 8, 16, 32, 63]:
-        #     for psm_code in [0, 1]:
-        for att_code in [0, 1, 2, 3, 4, 8, 16, 32, 63]:
-            for psm_code in [0, 1, 2, 3, 4, 8, 16, 32, 63]:
+        att_codes = secondary['att_codes']
+        psm_codes = secondary['psm_codes']
+
+        # test string: 1,2,5-9,20,20-27,63
+        for att_code in att_codes:
+            for psm_code in psm_codes:
                 self._phase_codes.append(psm_code)
                 self._att_codes.append(att_code)
 

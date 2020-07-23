@@ -1,6 +1,8 @@
+from itertools import chain
+
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSlot, pyqtSignal, QRunnable, QThreadPool
-from PyQt5.QtWidgets import QWidget, QComboBox, QLabel, QMessageBox, QDoubleSpinBox, QSpinBox
+from PyQt5.QtWidgets import QWidget, QDoubleSpinBox, QLineEdit
 
 from deviceselectwidget import DeviceSelectWidget
 
@@ -120,6 +122,9 @@ class MeasureWidget(QWidget):
         self._devices.enabled = False
 
 
+main_codes = [0, 1, 2, 4, 8, 16, 32, 63]
+
+
 class MeasureWidgetWithSecondaryParameters(MeasureWidget):
     secondaryChanged = pyqtSignal(dict)
 
@@ -175,6 +180,12 @@ class MeasureWidgetWithSecondaryParameters(MeasureWidget):
         self._spinFreq2.setValue(self._spinFreqEnd.value())
         self._devices._layout.addRow('Fгр2=', self._spinFreq2)
 
+        self._editAttCode = QLineEdit(parent=self)
+        self._devices._layout.addRow('Сост. атт.', self._editAttCode)
+
+        self._editPsmCode = QLineEdit(parent=self)
+        self._devices._layout.addRow('Сост. фвр.', self._editPsmCode)
+
         self._connectSignals()
 
     def _connectSignals(self):
@@ -190,6 +201,9 @@ class MeasureWidgetWithSecondaryParameters(MeasureWidget):
         self._spinFreqEnd.valueChanged.connect(self.on_spinFreqEnd_valueChanged)
         self._spinFreq1.valueChanged.connect(self.on_spinFreq1_valueChanged)
         self._spinFreq2.valueChanged.connect(self.on_spinFreq2_valueChanged)
+
+        self._editAttCode.textChanged.connect(self.on_params_changed)
+        self._editPsmCode.textChanged.connect(self.on_params_changed)
 
         self.on_spinFreqStart_valueChanged(2.0)
         self.on_spinFreqEnd_valueChanged(4.0)
@@ -258,5 +272,19 @@ class MeasureWidgetWithSecondaryParameters(MeasureWidget):
             'kp': self._spinState.value(),
             'Fborder1': self._spinFreq1.value(),
             'Fborder2': self._spinFreq2.value(),
+            'att_codes': list(main_codes) if not self._editAttCode.text() else _parse(self._editAttCode.text()),
+            'psm_codes': list(main_codes) if not self._editPsmCode.text() else _parse(self._editPsmCode.text())
         }
         self.secondaryChanged.emit(params)
+
+
+def _parse(raw):
+    return sorted(set(main_codes + list(chain(*[_convert(v) for v in raw.replace(' ', '').strip(',').strip('-').split(',')]))))
+
+
+def _convert(value):
+    if '-' not in value:
+        return [int(value)]
+    else:
+        v1, v2 = map(int, value.split('-'))
+        return range(v1, v2 + 1)
