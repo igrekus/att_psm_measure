@@ -42,6 +42,10 @@ def calc_error(array, zero):
     return [a - z for a, z in zip(array, zero)]
 
 
+def calc_error_around_ideal(array, mean, ideal):
+    return [a - m - ideal for a, m in zip(array, mean)]
+
+
 def calc_phase_error(array, zero, ideal):
     return [a - z - ideal if (a - z - ideal) > -200 else (a - z - ideal + 360) for a, z in zip(array, zero)]
 
@@ -212,11 +216,13 @@ class MeasureResult:
     def _calc_s21_err(self):
         unique_att_codes = set(self._att_codes)
         att_group_len = len(unique_att_codes)
+        att_values = [0, 0.25, 0.5, 1, 2, 4, 8, 15.75]
 
         s21_amps = [chunk[0] for chunk in chunks(self._s21s, att_group_len)]
 
         means = [statistics.mean(vs) for vs in zip(*s21_amps)]
-        self._s21s_err = [calc_error(s, means) for s in s21_amps]
+        # self._s21s_err = [calc_error(s, means) for s in s21_amps]
+        self._s21s_err = [calc_error_around_ideal(s, means, a) for s, a in zip(s21_amps, att_values)]
 
     def _calc_phase_rmse(self):
         means = [statistics.mean(vs) for vs in zip(*self._s21s_ph_err)]
