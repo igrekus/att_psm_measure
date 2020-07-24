@@ -47,7 +47,7 @@ class MainWindow(QMainWindow):
         self._ui.tabWidget.insertTab(0, self._sParamPlotWidget, 'S-параметры')
         self._ui.tabWidget.insertTab(1, self._psmPlotWidget, 'Отклик фазовращателя')
         self._ui.tabWidget.insertTab(2, self._attPlotWidget, 'Отклик аттенюатора')
-        self._ui.tabWidget.insertTab(3, self._rmsePlotWidget, 'Среднеквадратичная ошибка')
+        self._ui.tabWidget.insertTab(3, self._rmsePlotWidget, 'Амп. и фаз. ошибки')
         self._init()
 
     def _init(self):
