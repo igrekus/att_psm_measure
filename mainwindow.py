@@ -91,7 +91,8 @@ class MainWindow(QMainWindow):
         self._psmPlotWidget.plot()
         self._attPlotWidget.plot()
         self._rmsePlotWidget.plot()
-        # self._statWidget.stats = self._instrumentController.result.stats
+
+        self._statWidget.stats = self._instrumentController.result.stats
 
     @pyqtSlot()
     def on_measureStarted(self):

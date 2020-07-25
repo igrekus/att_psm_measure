@@ -178,8 +178,9 @@ class MeasureResult:
         #     self._adjust_data('err')
         self._calc_phase_rmse()
         self._calc_s21_rmse()
-        # self._calc_stats()
-        #
+
+        self._calc_stats()
+
         # self._cal_s21_worst_loss()
         #
         self.ready = True
@@ -258,23 +259,27 @@ class MeasureResult:
 
         mid = self._min_freq_index + abs(self._max_freq_index - self._min_freq_index) // 2
 
-        vs = list(zip(*self.s21))
+        unique_att_codes = set(self._att_codes)
+        att_group_len = len(unique_att_codes)
+        s21_amps = [chunk[0] for chunk in chunks(self._s21s, att_group_len)]
+
+        vs = list(zip(*s21_amps))
         self._s21_mins = [min(vs[self._min_freq_index]), min(vs[mid]), min(vs[self._max_freq_index])]
 
-        vs = list(zip(*self.vswr_in))
-        self._vswr_in_max = [max(vs[self._min_freq_index]), max(vs[mid]), max(vs[self._max_freq_index])]
-
-        vs = list(zip(*self.vswr_out))
-        self._vswr_out_max = [max(vs[self._min_freq_index]), max(vs[mid]), max(vs[self._max_freq_index])]
-
-        self._phase_rmse_values = [self.phase_rmse[self._min_freq_index], self.phase_rmse[mid], self.phase_rmse[self._max_freq_index]]
-        self._s21_rmse_values = [self.s21_rmse[self._min_freq_index], self.s21_rmse[mid], self.s21_rmse[self._max_freq_index]]
-
-        vs = list(zip(*self.phase_err))
-        self._phase_err_max = [max(abs(v) for v in vs[self._min_freq_index]), max(abs(v) for v in vs[mid]), max(abs(v) for v in vs[self._max_freq_index])]
-
-        vs = list(zip(*self.s21_err))
-        self._s21_err_max = [max(abs(v) for v in vs[self._min_freq_index]), max(abs(v) for v in vs[mid]), max(abs(v) for v in vs[self._max_freq_index])]
+        # vs = list(zip(*self.vswr_in))
+        # self._vswr_in_max = [max(vs[self._min_freq_index]), max(vs[mid]), max(vs[self._max_freq_index])]
+        #
+        # vs = list(zip(*self.vswr_out))
+        # self._vswr_out_max = [max(vs[self._min_freq_index]), max(vs[mid]), max(vs[self._max_freq_index])]
+        #
+        # self._phase_rmse_values = [self.phase_rmse[self._min_freq_index], self.phase_rmse[mid], self.phase_rmse[self._max_freq_index]]
+        # self._s21_rmse_values = [self.s21_rmse[self._min_freq_index], self.s21_rmse[mid], self.s21_rmse[self._max_freq_index]]
+        #
+        # vs = list(zip(*self.phase_err))
+        # self._phase_err_max = [max(abs(v) for v in vs[self._min_freq_index]), max(abs(v) for v in vs[mid]), max(abs(v) for v in vs[self._max_freq_index])]
+        #
+        # vs = list(zip(*self.s21_err))
+        # self._s21_err_max = [max(abs(v) for v in vs[self._min_freq_index]), max(abs(v) for v in vs[mid]), max(abs(v) for v in vs[self._max_freq_index])]
 
     def _cal_s21_worst_loss(self):
         min_index = _find_freq_index(self._freqs, self._secondaryParams['Fborder1'])
@@ -447,40 +452,51 @@ class MeasureResult:
         kp_freq_min = f'{self._kp_freq_min:.02f} ГГц' if self._kp_freq_min != 'n/a' else 'n/a'
         kp_freq_max = f'{self._kp_freq_max:.02f} ГГц' if self._kp_freq_max != 'n/a' else 'n/a'
 
+#         return f'''Потери, минимум:
+# {self._s21_mins[0]:.02f} дБ на {f1} ГГц
+# {self._s21_mins[1]:.02f} дБ на {f2} ГГц
+# {self._s21_mins[2]:.02f} дБ на {f3} ГГц
+#
+# КСВ вх, макс:
+# {self._vswr_in_max[0]:.02f} на {f1} ГГц
+# {self._vswr_in_max[1]:.02f} на {f2} ГГц
+# {self._vswr_in_max[2]:.02f} на {f3} ГГц
+#
+# КСВ вых, макс:
+# {self._vswr_out_max[0]:.02f} на {f1} ГГц
+# {self._vswr_out_max[1]:.02f} на {f2} ГГц
+# {self._vswr_out_max[2]:.02f} на {f3} ГГц
+#
+# φ, ошибка:
+# {self._phase_err_max[0]:.02f} град на {f1} ГГц
+# {self._phase_err_max[1]:.02f} град на {f2} ГГц
+# {self._phase_err_max[2]:.02f} град на {f3} ГГц
+#
+# φ, СКО:
+# {self._phase_rmse_values[0]:.02f} град на {f1} ГГц
+# {self._phase_rmse_values[1]:.02f} град на {f2} ГГц
+# {self._phase_rmse_values[2]:.02f} град на {f3} ГГц
+#
+# Потери, ошибка:
+# {self._s21_err_max[0]:.02f} дБ на {f1} ГГц
+# {self._s21_err_max[1]:.02f} дБ на {f2} ГГц
+# {self._s21_err_max[2]:.02f} дБ на {f3} ГГц
+#
+# Потери, СКО:
+# {self._s21_rmse_values[0]:.02f} дБ на {f1} ГГц
+# {self._s21_rmse_values[1]:.02f} дБ на {f2} ГГц
+# {self._s21_rmse_values[2]:.02f} дБ на {f3} ГГц
+#
+# Нижняя граница РЧ, Fн:
+# {kp_freq_min}
+#
+# Верхняя граница РЧ, Fв:
+# {kp_freq_max}
+# '''
         return f'''Потери, минимум:
 {self._s21_mins[0]:.02f} дБ на {f1} ГГц
 {self._s21_mins[1]:.02f} дБ на {f2} ГГц
 {self._s21_mins[2]:.02f} дБ на {f3} ГГц
-
-КСВ вх, макс:
-{self._vswr_in_max[0]:.02f} на {f1} ГГц
-{self._vswr_in_max[1]:.02f} на {f2} ГГц
-{self._vswr_in_max[2]:.02f} на {f3} ГГц
-
-КСВ вых, макс:
-{self._vswr_out_max[0]:.02f} на {f1} ГГц
-{self._vswr_out_max[1]:.02f} на {f2} ГГц
-{self._vswr_out_max[2]:.02f} на {f3} ГГц
-
-φ, ошибка:
-{self._phase_err_max[0]:.02f} град на {f1} ГГц
-{self._phase_err_max[1]:.02f} град на {f2} ГГц
-{self._phase_err_max[2]:.02f} град на {f3} ГГц
-
-φ, СКО:
-{self._phase_rmse_values[0]:.02f} град на {f1} ГГц
-{self._phase_rmse_values[1]:.02f} град на {f2} ГГц
-{self._phase_rmse_values[2]:.02f} град на {f3} ГГц
-
-Потери, ошибка:
-{self._s21_err_max[0]:.02f} дБ на {f1} ГГц
-{self._s21_err_max[1]:.02f} дБ на {f2} ГГц
-{self._s21_err_max[2]:.02f} дБ на {f3} ГГц
-
-Потери, СКО:
-{self._s21_rmse_values[0]:.02f} дБ на {f1} ГГц
-{self._s21_rmse_values[1]:.02f} дБ на {f2} ГГц
-{self._s21_rmse_values[2]:.02f} дБ на {f3} ГГц
 
 Нижняя граница РЧ, Fн:
 {kp_freq_min}
