@@ -1,5 +1,6 @@
 from PyQt5 import uic
-from PyQt5.QtWidgets import QWidget, QPlainTextEdit
+from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtWidgets import QWidget
 
 
 class StatWidget(QWidget):
@@ -13,6 +14,10 @@ class StatWidget(QWidget):
 
         self._ui.texteditStat.setPlainText('')
 
+    @pyqtSlot()
+    def on_btnExportExcel_clicked(self):
+        self._exportExcel()
+
     @property
     def stats(self):
         return self._ui.texteditStat.plainText()
@@ -20,3 +25,7 @@ class StatWidget(QWidget):
     @stats.setter
     def stats(self, text):
         self._ui.texteditStat.setPlainText(text)
+
+
+    def _exportExcel(self):
+        print('exporting')
