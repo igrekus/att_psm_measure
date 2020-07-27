@@ -180,10 +180,10 @@ class MeasureWidgetWithSecondaryParameters(MeasureWidget):
         self._spinFreq2.setValue(self._spinFreqEnd.value())
         self._devices._layout.addRow('Fгр2=', self._spinFreq2)
 
-        self._editAttCode = QLineEdit(parent=self)
+        self._editAttCode = QLineEdit(parent=self, text='1,2,5-9,20,20-27,63')
         self._devices._layout.addRow('Сост. атт.', self._editAttCode)
 
-        self._editPsmCode = QLineEdit(parent=self)
+        self._editPsmCode = QLineEdit(parent=self, text='1,2,5-9,20,20-27,63')
         self._devices._layout.addRow('Сост. фвр.', self._editPsmCode)
 
         self._connectSignals()
