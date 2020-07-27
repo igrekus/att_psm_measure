@@ -87,6 +87,10 @@ def att_value_for_att_code(code):
     return sum(att_states[code & t] for t in bitmap)
 
 
+def phs_value_for_phs_code(code):
+    return code * 5.625
+
+
 class MeasureResult:
     adjust_dirs = {
         1: 'data/+25',
@@ -211,7 +215,7 @@ class MeasureResult:
         phase_group_len = len(unique_phase_codes)
         s21_phases = self._s21s_ph[:phase_group_len]
         ph0 = s21_phases[0]
-        phase_values = [c * 5.625 for c in unique_phase_codes]
+        phase_values = [phs_value_for_phs_code(c) for c in unique_phase_codes]
 
         # TODO check against the datasheet if the error calc is correct
 
