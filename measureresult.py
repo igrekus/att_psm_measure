@@ -203,12 +203,11 @@ class MeasureResult:
         phase_group_len = len(unique_phase_codes)
         s21_phases = self._s21s_ph[:phase_group_len]
         ph0 = s21_phases[0]
-        phase_values = [i * 5.625 for i in unique_phase_codes]
+        phase_values = [c * 5.625 for c in unique_phase_codes]
 
         self._s21s_ph_err = [calc_phase_error(s, ph0, ideal) for s, ideal in zip(s21_phases, phase_values)]
 
         means = [statistics.mean(vs) for vs in zip(*self._s21s_ph_err)]
-
         self._s21s_ph_err = [calc_error(s, mean) for s, mean in zip(self._s21s_ph_err, itertools.repeat(means, len(self._s21s_ph_err)))]
 
     def _calc_s21_err(self):
