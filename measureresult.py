@@ -79,6 +79,14 @@ def _find_freq_index(freqs: list, freq):
     return min(range(len(freqs)), key=lambda i: abs(freqs[i] - freq))
 
 
+bitmap = [0, 1 << 0, 1 << 1, 1 << 2, 1 << 3, 1 << 4, 1 << 5]
+att_states = {b: v for b, v in zip(bitmap, [0, 0.25, 0.5, 1, 2, 4, 8])}
+
+
+def att_value_for_att_code(code):
+    return sum(att_states[code & t] for t in bitmap)
+
+
 class MeasureResult:
     adjust_dirs = {
         1: 'data/+25',
@@ -211,9 +219,10 @@ class MeasureResult:
         self._s21s_ph_err = [calc_error(s, mean) for s, mean in zip(self._s21s_ph_err, itertools.repeat(means, len(self._s21s_ph_err)))]
 
     def _calc_s21_err(self):
-        unique_att_codes = set(self._att_codes)
+        unique_att_codes = sorted(set(self._att_codes))
         att_group_len = len(unique_att_codes)
-        att_values = [0, 0.25, 0.5, 1, 2, 4, 8, 15.75]
+        # att_values = [0, 0.25, 0.5, 1, 2, 4, 8, 15.75]
+        att_values = [att_value_for_att_code(c) for c in unique_att_codes]
 
         s21_amps = [chunk[0] for chunk in chunks(self._s21s, att_group_len)]
 
