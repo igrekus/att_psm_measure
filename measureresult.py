@@ -199,7 +199,7 @@ class MeasureResult:
         self._vswr_out = [calc_vswr(s) for s in self._s22s]
 
     def _calc_phase_err(self):
-        unique_phase_codes = set(self._phase_codes)
+        unique_phase_codes = sorted(set(self._phase_codes))
         phase_group_len = len(unique_phase_codes)
         s21_phases = self._s21s_ph[:phase_group_len]
         ph0 = s21_phases[0]
