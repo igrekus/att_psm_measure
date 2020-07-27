@@ -213,6 +213,8 @@ class MeasureResult:
         ph0 = s21_phases[0]
         phase_values = [c * 5.625 for c in unique_phase_codes]
 
+        # TODO check against the datasheet if the error calc is correct
+
         self._s21s_ph_err = [calc_phase_error(s, ph0, ideal) for s, ideal in zip(s21_phases, phase_values)]
 
         means = [statistics.mean(vs) for vs in zip(*self._s21s_ph_err)]
