@@ -72,21 +72,37 @@ class StatWidget(QWidget):
 
         wb = openpyxl.Workbook()
         ws = wb.active
-        ws.title = 'S21 amps'
 
+        ws.title = 'S21 amps'
         ws.append(titles)
         for row in build_data(freqs, s21_amps):
             ws.append(row)
 
         ws = wb.create_sheet('S21 phases')
-        ws.append(['stub'])
+        ws.append(titles)
+        for row in build_data(freqs, s21_phs):
+            ws.append(row)
+
+        ws = wb.create_sheet('S11 amps')
+        ws.append(titles)
+        for row in build_data(freqs, s11_amps):
+            ws.append(row)
+
+        ws = wb.create_sheet('S12 amps')
+        ws.append(titles)
+        for row in build_data(freqs, s12_amps):
+            ws.append(row)
+
+        ws = wb.create_sheet('S22 amps')
+        ws.append(titles)
+        for row in build_data(freqs, s22_amps):
+            ws.append(row)
 
         if not os.path.isdir('xlsx'):
             os.mkdir('xlsx')
 
         wb.save(f'xlsx\\{self.xlsx_filename}')
         os.startfile('xlsx')
-
 
     @property
     def xlsx_filename(self):
