@@ -8,6 +8,11 @@ from instr.instrumentfactory import NetworkAnalyzerFactory, mock_enabled
 from measureresult import MeasureResult
 
 
+# TODO: fix bit pattens: 22-23; 0-1; 0; 1;
+# TODO: add canscl measure button
+# TODO: error plot
+# TODO: remove kp, fborder 1/2
+
 class InstrumentController(QObject):
     phases = [
         22.5,

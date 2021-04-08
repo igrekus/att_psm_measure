@@ -87,6 +87,8 @@ class MainWindow(QMainWindow):
     def on_measureComplete(self):
         print('meas complete')
         # self._plotWidget.preparePlots(self._instrumentController.secondaryParams)
+
+        # TODO tmp disable
         self._sParamPlotWidget.plot()
         self._psmPlotWidget.plot()
         self._attPlotWidget.plot()
